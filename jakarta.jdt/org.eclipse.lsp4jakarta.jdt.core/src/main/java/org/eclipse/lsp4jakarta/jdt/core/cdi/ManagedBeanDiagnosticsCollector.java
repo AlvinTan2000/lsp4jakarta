@@ -254,10 +254,10 @@ public class ManagedBeanDiagnosticsCollector implements DiagnosticsCollector {
                  */
                 if (isManagedBean) {
                 	boolean isClassGeneric = type.getTypeParameters().length != 0;
-                    
-                    if (isClassGeneric && managedBeanAnnotations.stream()
-                            .anyMatch(annotation -> !annotation.equals("Dependent"))) {
-                    	diagnostics.add(createDiagnostic(type, unit, "Managed bean class of generic type must have scope @dependent.",
+                    boolean isDependent = !managedBeanAnnotations.stream().anyMatch(annotation -> !annotation.equals("Dependent"));
+                	
+                    if (isClassGeneric && !isDependent) {
+                    	diagnostics.add(createDiagnostic(type, unit, "Managed bean class of generic type must have scope @Dependent",
                     			DIAGNOSTIC_CODE));
                     }
                 }
